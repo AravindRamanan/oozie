@@ -1,0 +1,3 @@
+ 
+ oozie oozie job -oozie http://rm01.itversity.com:11000/oozie -config job.properties -run
+ oozie job -oozie http://rm01.itversity.com:11000/oozie -info 0000006-190808174415019-oozie-oozi-W

@@ -1,0 +1,31 @@
+<workflow-app xmlns="uri:oozie:workflow:0.1" name="hive_Demo">
+	<start to="hive2-create-tables"/>
+    <action name="hive2-create-tables">
+        <hive2 xmlns="uri:oozie:hive2-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+		<property>
+    			<name>hadoop.proxyuser.oozie.hosts</name>
+		        <value>*</value>
+ 		</property>
+    		<property>
+    			<name>hadoop.proxyuser.oozie.groups</name>
+		        <value>*</value>
+		 </property>
+            </configuration>
+            <jdbc-url>${jdbcURL}</jdbc-url>
+            <script>hive_create_tables.hql</script>
+        </hive2>
+        <ok to="end"/>
+		<error to="kill"/>
+</action>
+<kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+        </kill>
+    <end name="end"/>
+</workflow-app>
